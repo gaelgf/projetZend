@@ -5,11 +5,15 @@ Installation
 ------------
 
 git clone
+
 cd projetZend
+
 composer install
 
 Dans localhost/phpmyadmin => créer une bdd nommée projet zend
+
 Aller dans cette bdd puis dans l'onglet sql et exécuter ce code :
+
     CREATE TABLE `user`
     (
         `user_id`       INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -21,3 +25,5 @@ Aller dans cette bdd puis dans l'onglet sql et exécuter ce code :
     ) ENGINE=InnoDB CHARSET="utf8";
 
 Aller à l'adresse http://localhost/projetZend/public/
+
+ça devrait marcher
