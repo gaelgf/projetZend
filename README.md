@@ -4,13 +4,19 @@ Projet Zend Groupe 6 - CMS
 Installation
 ------------
 
-git clone https://github.com/gaelgf/projetZend
+```bash
+git clone (https://github.com/gaelgf/projetZend)
+```
 
+```bash
 cd projetZend
+```
 
+```bash
 composer install
+```
 
-Dans localhost/phpmyadmin => créer une bdd nommée projet zend
+Sur [localhost/phpmyadmin](localhost/phpmyadmin) => créer une bdd nommée projet zend
 
 Aller dans cette bdd puis dans l'onglet sql et exécuter ce code :
 
@@ -28,6 +34,6 @@ Aller dans cette bdd puis dans l'onglet sql et exécuter ce code :
 
 Insérer un utilisateur
 
-Aller à l'adresse http://localhost/projetZend/public/
+Aller à l'adresse [http://localhost/projetZend/public/](Http://localhost/projetZend/public/)
 
 ça devrait marcher
