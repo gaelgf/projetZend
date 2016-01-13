@@ -4,7 +4,7 @@ Projet Zend Groupe 6 - CMS
 Installation
 ------------
 
-git clone
+git clone https://github.com/gaelgf/projetZend
 
 cd projetZend
 
