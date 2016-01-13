@@ -14,6 +14,7 @@ Dans localhost/phpmyadmin => créer une bdd nommée projet zend
 
 Aller dans cette bdd puis dans l'onglet sql et exécuter ce code :
 
+```sql
     CREATE TABLE `user`
     (
         `user_id`       INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -23,6 +24,7 @@ Aller dans cette bdd puis dans l'onglet sql et exécuter ce code :
         `password`      VARCHAR(128) NOT NULL,
         `state`         SMALLINT UNSIGNED
     ) ENGINE=InnoDB CHARSET="utf8";
+```
 
 Insérer un utilisateur
 
