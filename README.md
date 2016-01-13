@@ -24,6 +24,8 @@ Aller dans cette bdd puis dans l'onglet sql et exécuter ce code :
         `state`         SMALLINT UNSIGNED
     ) ENGINE=InnoDB CHARSET="utf8";
 
+Insérer un utilisateur
+
 Aller à l'adresse http://localhost/projetZend/public/
 
 ça devrait marcher
