@@ -1,0 +1,22 @@
+<div class="jumbotron">
+    <h1><?php echo sprintf('Bienvenue sur le %sProjet Zend%s du groupe 6', '<span class="zf-green">', '</span>') ?></h1>
+</div>
+
+<div class="row">
+
+    <div class="col-md-4"></div>
+
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Test User</h3>
+            </div>
+            <div class="panel-body">
+                <strong>User Name</strong> : <?php echo $this->escapeHtml($user->getUsername()) ?><br>
+                <strong>Email</strong> : <?php echo $this->escapeHtml($user->getEmail()) ?><br>
+                <strong>Display Name</strong> : <?php echo $this->escapeHtml($user->getDisplayName()) ?><br>
+            </div>
+        </div>
+    </div>
+
+</div>
