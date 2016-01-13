@@ -5,7 +5,7 @@ Installation
 ------------
 
 ```bash
-git clone (https://github.com/gaelgf/projetZend)
+git clone https://github.com/gaelgf/projetZend
 ```
 
 ```bash
