@@ -16,7 +16,7 @@ cd projetZend
 composer install
 ```
 
-Sur [localhost/phpmyadmin](localhost/phpmyadmin) => créer une bdd nommée projet zend
+Sur [localhost/phpmyadmin](localhost/phpmyadmin) => créer une bdd nommée projetzend
 
 Aller dans cette bdd puis dans l'onglet sql et exécuter ce code :
 
