@@ -1,10 +1,10 @@
 <?php
 /**
  * User
- * @author Bidoum
+ * @author us
  *
  */
-namespace Application\Model;
+namespace Application\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use ZfcUser\Entity\UserInterface;
  
@@ -25,7 +25,7 @@ class User implements UserInterface
     /**
      * @var int L'identifiant utilisateur
      * @ORM\Id
-     * @ORM\Column(type="integer", name="user_id")
+     * @ORM\Column(type="integer", name="id")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $_id;
