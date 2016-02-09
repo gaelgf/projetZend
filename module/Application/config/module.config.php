@@ -22,6 +22,16 @@ return array(
                     ),
                 ),
             ),
+            'blog' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/blog',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Blog',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
@@ -76,7 +86,8 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Application\Controller\Index' => Controller\IndexController::class
+            'Application\Controller\Index' => Controller\IndexController::class,
+            'Application\Controller\Blog' => Controller\BlogController::class
         ),
     ),
     'view_manager' => array(
