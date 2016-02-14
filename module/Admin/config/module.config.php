@@ -21,7 +21,7 @@ return array(
                         'action'     => 'index',
                     ),
                 ),
-                'may_terminate' => true,
+                /*'may_terminate' => true,
                 'child_routes' => array(
                     'default' => array(
                         'type'    => 'Segment',
@@ -34,6 +34,37 @@ return array(
                             'defaults' => array(
                             ),
                         ),
+                    ),
+                ),*/
+            ),
+            
+             //Post Controller
+            'post' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/admin/post[/:action][/:id]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Admin\Controller\Post',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
+            //Catégorie Controller
+            'categorie' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/admin/categorie[/:action][/:id]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Admin\Controller\Categorie',
+                        'action'     => 'index',
                     ),
                 ),
             ),
@@ -62,7 +93,9 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Admin\Controller\Index' => Controller\IndexController::class
+            'Admin\Controller\Index' => Controller\IndexController::class,
+            'Admin\Controller\Post' => Controller\PostController::class,
+            'Admin\Controller\Categorie' => Controller\CategorieController::class
         ),
     ),
     'view_manager' => array(

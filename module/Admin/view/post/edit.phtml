@@ -1,13 +1,14 @@
 <?php
-$title = 'Ajouter un Article';
+$title = 'Modifier l\'article';
 $this->headTitle($title);
 $form = $this->form;
-$form->setAttribute('action', $this->url('post', array('action' => 'add', 'id'=>$this->id)));
+$form->setAttribute('action', $this->url('post', array('action' => 'edit', 'id'=>$this->id)));
 ?>
-<h1><?=$this->escapeHtml($title)?></h1>
+<h1><?=$this->escapeHtml($titre)?></h1>
 <?=$this->form()->openTag($form)?>
 <?=$this->formRow($form->get('id'))?>
 <?=$this->formRow($form->get('titre'))?>
 <?=$this->formRow($form->get('contenu'))?>
+<?=$this->formRow($form->get('categorie_id'))?>
 <?=$this->formRow($form->get('submit'))?>
 <?=$this->form()->closeTag($form)?>

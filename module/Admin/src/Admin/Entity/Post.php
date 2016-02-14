@@ -6,7 +6,8 @@
  */
 namespace Admin\Entity;
 use Doctrine\ORM\Mapping as ORM;
- 
+use Doctrine\ORM\Mapping\JoinColumn;
+
 /**
  * Représentation d'un post
  *
@@ -40,6 +41,7 @@ class Post
     protected $_contenu;
     /**
     * @ORM\OneToOne(targetEntity="Admin\Entity\User", cascade={"persist"})
+    * @JoinColumn(name="user_id", referencedColumnName="user_id")
     */
     private $_user;
 

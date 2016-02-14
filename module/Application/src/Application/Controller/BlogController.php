@@ -31,7 +31,7 @@ class BlogController extends AbstractActionController
 
     public function indexAction()
     {
-    	//$post = $this->getEntityManager()->getRepository('Application\Entity\Post')->findAll();
+    	//$post = $this->getEntityManager()->getRepository('Admin\Entity\Post')->findAll();
         return new ViewModel();
         //return new ViewModel(array('post' => $post));
     }
