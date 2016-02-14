@@ -1,0 +1,81 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle('Projet Zend Groupe 6')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?php echo $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+        <!-- Le styles -->
+        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+                        ->prependStylesheet($this->basePath('css/style.css'))
+                        ->prependStylesheet($this->basePath('css/style-theme.css'))
+                        ->prependStylesheet($this->basePath('http://fonts.googleapis.com/css?family=Lato'))
+                        ->prependStylesheet($this->basePath('http://fonts.googleapis.com/css?family=Crete+Round'))
+                        ->prependStylesheet($this->basePath('font-awesome.min.css'))
+                         ?>
+
+        <!-- Scripts -->
+        <?php echo $this->headScript()
+            ->prependFile($this->basePath('js/bootstrap.min.js'))
+            ->prependFile($this->basePath('js/jquery.min.js'))
+            ->prependFile($this->basePath('js/script-theme-1.min.js'))
+            ->prependFile($this->basePath('js/script-theme-2.js'))
+            ->prependFile($this->basePath('js/cookiechoices.js'))
+            ->prependFile($this->basePath('js/respond.min.js'), 'text/javascript', array('conditional' => 'lt IE 9',))
+            ->prependFile($this->basePath('js/html5shiv.min.js'),   'text/javascript', array('conditional' => 'lt IE 9',))
+        ; ?>
+
+    </head>
+    <body class='index'>
+        <div class='firstload-background'>
+        </div>
+        <div class='site' id='page'>
+            <div id='masthead' role='banner'>
+                <div class='container'>
+                    <div class='navbar navbar-inverse'>
+                        <div class='navbar-inner'>
+                            <div class='btn-navbar' data-target='.nav-collapse' data-toggle='collapse' type='button'><img alt='menu' src='../4.bp.blogspot.com/-e9CebrMaKCk/U9VrWEmLExI/AAAAAAAABEU/SCbtff7QMoI/s1600/bmenu%20(1).png'/></div>
+                            <div id='header-wrap' itemscope='' itemtype='http://schema.org/WPHeader'>
+                                <div class='header section' id='header'>
+                                    <div class='widget Header' id='Header1'>
+                                        <div id='header-inner'>
+                                            <span><h1>Projet Zend Admin</h1></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='nav-collapse collapse'>
+                                <ul class='nav' id='menu-primary' itemscope='' itemtype='http://schema.org/SiteNavigationElement'>
+                                    <li itemprop='name'><a href='<?php echo $this->url('home') ?>' itemprop='url'>Articles</a></li>
+                                    <li itemprop='name'><a href='<?php echo $this->url('home') ?>' itemprop='url'>Commentares   </a></li>
+                                    <li itemprop='name'><a href='<?php echo $this->url('blog') ?>' itemprop='url'>Images</a></li>  
+                                    <li itemprop='name'><a href='<?php echo $this->url('zfcuser') ?>' itemprop='url'>Utilisateurs</a></li>
+                                    <li itemprop='name'><a href='#' itemprop='url'>Déconnexion</a></li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='clear'></div>
+            </div>
+            <div class='clear'></div>
+
+            <?php echo $this->content; ?>
+            <?php echo $this->partial('footer.phtml'); ?>
+         
+        </div>
+        <?php echo $this->inlineScript() ?>
+    </body>
+</html>
+
+
+
+
+
+

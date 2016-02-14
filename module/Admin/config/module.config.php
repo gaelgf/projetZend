@@ -7,44 +7,18 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Application;
+namespace Admin;
 
 return array(
     'router' => array(
         'routes' => array(
-            'home' => array(
+            'admin' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/',
+                    'route'    => '/admin',
                     'defaults' => array(
-                        'controller' => 'Application\Controller\Index',
+                        'controller' => 'Admin\Controller\Index',
                         'action'     => 'index',
-                    ),
-                ),
-            ),
-            'blog' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route'    => '/blog',
-                    'defaults' => array(
-                        'controller' => 'Application\Controller\Blog',
-                        'action'     => 'index',
-                    ),
-                ),
-            ),
-
-            // The following is a route to simplify getting started creating
-            // new controllers and actions without needing to create a new
-            // module. Simply drop new controllers in, and you can access them
-            // using the path /application/:controller/:action
-            'application' => array(
-                'type'    => 'Literal',
-                'options' => array(
-                    'route'    => '/application',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'Application\Controller',
-                        'controller'    => 'Index',
-                        'action'        => 'index',
                     ),
                 ),
                 'may_terminate' => true,
@@ -63,6 +37,7 @@ return array(
                     ),
                 ),
             ),
+            
         ),
     ),
     'service_manager' => array(
@@ -87,8 +62,7 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Application\Controller\Index' => Controller\IndexController::class,
-            'Application\Controller\Blog' => Controller\BlogController::class
+            'Admin\Controller\Index' => Controller\IndexController::class
         ),
     ),
     'view_manager' => array(

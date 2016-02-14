@@ -11,7 +11,7 @@ namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManager,
 use Doctrine\ORM\Query;
 
 class BlogController extends AbstractActionController
@@ -31,8 +31,8 @@ class BlogController extends AbstractActionController
 
     public function indexAction()
     {
-    	//$post = $this->getEntityManager()->getRepository('Application\Entity\Post')->findAll();
-        return new ViewModel();
-        //return new ViewModel(array('post' => $post));
+    	$post = $this->getEntityManager()->getRepository('Application\Entity\Post')->findAll();
+        //return new ViewModel();
+        return new ViewModel(array('post' => $post));
     }
 }

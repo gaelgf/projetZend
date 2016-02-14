@@ -4,7 +4,7 @@
  * @author us
  *
  */
-namespace Application\Entity;
+namespace Admin\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use ZfcUser\Entity\UserInterface;
  

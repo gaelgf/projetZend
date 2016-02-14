@@ -1,22 +1,21 @@
 <?php
 /**
- * Photo
+ * Comment
  * @author us
  *
  */
-namespace Application\Entity;
+namespace Admin\Entity;
 use Doctrine\ORM\Mapping as ORM;
-use ZfcUser\Entity\UserInterface;
  
 /**
- * Représentation d'une photo
+ * Représentation d'un comment
  *
  * @ORM\Entity
- * @ORM\Table(name="photo")
+ * @ORM\Table(name="comment")
  *
  * @author
  */
-class Photo 
+class Comment 
 {
     /*********************************
      * ATTRIBUTS
@@ -30,16 +29,20 @@ class Photo
      */
     protected $_id;
     /**
-     * @var string lien
-     * @ORM\Column(type="string", length=255, unique=true, nullable=true, name="lien")
+     * @var string email
+     * @ORM\Column(type="string", length=255, unique=true, nullable=true, name="email")
      */
-    protected $_lien;
+    protected $_email;
     /**
-     * @var string alt
-     * @ORM\Column(type="string", unique=true,  length=255, name="alt")
+     * @var string contenu
+     * @ORM\Column(type="string", unique=true,  length=255, name="contenu")
      */
-    protected $_alt;
-    
+    protected $_contenu;
+    /**
+    * @ORM\OneToOne(targetEntity="Admin\Entity\Post", cascade={"persist"})
+    */
+    private $_post;
+
  
     /*********************************
      * ACCESSEURS
@@ -48,7 +51,7 @@ class Photo
     /*********** GETTERS ************/
      
     /**
-     * Obtient l'identifiant photo
+     * Obtient l'identifiant comment
      * @return int
      */
     public function getId()
@@ -57,31 +60,39 @@ class Photo
     }
      
     /**
-     * Obtient le lien
+     * Obtient l'email
      * @return string
      */
-    public function getLien()
+    public function getEmail()
     {
-        return $this->_lien;
+        return $this->_email;
     }
      
     /**
-     * Obtient le alt
+     * Obtient le contenu
      * @return string
      */
-    public function getAlt()
+    public function getContenu()
     {
-        return $this->_alt;
+        return $this->_contenu;
     }
      
-    
+    /**
+     * Obtient le post
+     * @return Admin\Entity\Post
+     */
+    public function getPost()
+    {
+        return $this->_post;
+    }
+     
      
     /*********** SETTERS ************/
      
     /**
-     * Définit l'id du post
+     * Définit l'id du comment
      * @param int $id L'identifiant
-     * @return Photo
+     * @return Comment
      */
     public function setId($id)
     {
@@ -90,24 +101,35 @@ class Photo
     }
      
     /**
-     * Définit le lien
-     * @param $lien 
-     * @return Photo
+     * Définit le email
+     * @param $email 
+     * @return Comment
      */
-    public function setLien($lien)
+    public function setEmail($email)
     {
-        $this->_lien = $lien;
+        $this->_email = $email;
         return $this;
     }
      
     /**
-     * Définit le alt
-     * @param $alt
-     * @return Photo
+     * Définit le contenu
+     * @param $contenu
+     * @return Comment
      */
-    public function setAlt($alt)
+    public function setContenu($contenu)
     {
-        $this->_alt = $alt;
+        $this->_contenu = $contenu;
+        return $this;
+    }
+     
+    /**
+     * Définit le post
+     * @param Admin\Entity\Post
+     * @return Comment
+     */
+    public function setPost(Admin\Entity\Post $post = null)
+    {
+        $this->_post = $post;
         return $this;
     }
      

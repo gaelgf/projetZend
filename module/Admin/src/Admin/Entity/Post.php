@@ -4,9 +4,8 @@
  * @author us
  *
  */
-namespace Application\Entity;
+namespace Admin\Entity;
 use Doctrine\ORM\Mapping as ORM;
-use ZfcUser\Entity\UserInterface;
  
 /**
  * Représentation d'un post
@@ -40,22 +39,22 @@ class Post
      */
     protected $_contenu;
     /**
-    * @ORM\OneToOne(targetEntity="Application\Entity\User", cascade={"persist"})
+    * @ORM\OneToOne(targetEntity="Admin\Entity\User", cascade={"persist"})
     */
     private $_user;
 
     /**
-    * @ORM\OneToOne(targetEntity="Application\Entity\Photo", cascade={"persist"})
+    * @ORM\OneToOne(targetEntity="Admin\Entity\Photo", cascade={"persist"})
     */
     private $_photo;
     
     /**
-    * @ORM\OneToOne(targetEntity="Application\Entity\Comment", cascade={"persist"})
+    * @ORM\OneToOne(targetEntity="Admin\Entity\Comment", cascade={"persist"})
     */
     private $_comment;
 
     /**
-    * @ORM\ManyToMany(targetEntity="Application\Entity\Categorie", cascade={"persist"})
+    * @ORM\ManyToMany(targetEntity="Admin\Entity\Categorie", cascade={"persist"})
     */
     private $_categorie;
  
@@ -94,7 +93,7 @@ class Post
      
     /**
      * Obtient le user
-     * @return Application\Entity\User
+     * @return Admin\Entity\User
      */
     public function getUser()
     {
@@ -103,7 +102,7 @@ class Post
      
     /**
      * Obtient la photo
-     * @return Application\Entity\Photo
+     * @return Admin\Entity\Photo
      */
     public function getPhoto()
     {
@@ -112,7 +111,7 @@ class Post
      
     /**
      * Obtient le commentaire
-     * @return Application\Entity\Comment
+     * @return Admin\Entity\Comment
      */
     public function getComment()
     {
@@ -164,10 +163,10 @@ class Post
      
     /**
      * Définit le user
-     * @param Application\Entity\User
+     * @param Admin\Entity\User
      * @return Post
      */
-    public function setUser(Application\Entity\User $user = null)
+    public function setUser(Admin\Entity\User $user = null)
     {
         $this->_user = $user;
         return $this;
@@ -175,10 +174,10 @@ class Post
      
     /**
      * Définit la photo
-     * @param Application\Entity\Photo
+     * @param Admin\Entity\Photo
      * @return Post
      */
-    public function setPhoto(Application\Entity\Photo $photo = null)
+    public function setPhoto(Admin\Entity\Photo $photo = null)
     {
         $this->_photo = $photo;
         return $this;
@@ -186,10 +185,10 @@ class Post
      
     /**
      * Définit le commentaire
-     * @param Application\Entity\Comment
+     * @param Admin\Entity\Comment
      * @return Post
      */
-    public function setComment(Application\Entity\Comment $comment = null)
+    public function setComment(Admin\Entity\Comment $comment = null)
     {
         $this->_comment = $comment;
         return $this;
