@@ -35,6 +35,8 @@ class CategorieController extends AbstractActionController
     public function indexAction()
     {
     	$categorie = $this->getEntityManager()->getRepository('Admin\Entity\Categorie')->findAll();
+        $layout = $this->layout();
+        $layout->setTemplate('layout/admin');
         
         return new ViewModel(array('categorie' => $categorie));
     }

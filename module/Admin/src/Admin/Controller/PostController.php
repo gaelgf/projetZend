@@ -36,6 +36,9 @@ class PostController extends AbstractActionController
     {
     	$post = $this->getEntityManager()->getRepository('Admin\Entity\Post')->findAll();
         
+        $layout = $this->layout();
+        $layout->setTemplate('layout/admin');
+        
         return new ViewModel(array('post' => $post));
     }
 
