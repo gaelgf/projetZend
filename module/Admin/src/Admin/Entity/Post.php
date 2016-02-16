@@ -58,7 +58,7 @@ class Post
     /**
     * @ORM\ManyToMany(targetEntity="Admin\Entity\Categorie", cascade={"persist"})
     */
-    private $_categorie;
+    //private $_categorie;
  
     /*********************************
      * ACCESSEURS
@@ -204,7 +204,7 @@ class Post
      */
     public function __construct()
     {
-        $this->categorie = new ArrayCollection();
+        //$this->categorie = new ArrayCollection();
     }
  
     /*********************************

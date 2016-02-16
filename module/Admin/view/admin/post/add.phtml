@@ -1,13 +1,17 @@
+<h1>Add a new Post</h1>
 <?php
-$title = 'Ajouter un Article';
-$this->headTitle($title);
-$form = $this->form;
-$form->setAttribute('action', $this->url('post', array('action' => 'add', 'id'=>$this->id)));
-?>
-<h1><?=$this->escapeHtml($title)?></h1>
-<?=$this->form()->openTag($form)?>
-<?=$this->formRow($form->get('id'))?>
-<?=$this->formRow($form->get('titre'))?>
-<?=$this->formRow($form->get('contenu'))?>
-<?=$this->formRow($form->get('submit'))?>
-<?=$this->form()->closeTag($form)?>
+$form->setAttribute('action', $this->url('post', array('action'=>'add')))
+     ->prepare();
+
+echo $this->form()->openTag($form);
+
+$postFieldset = $form->get('post');
+
+echo $this->formHidden($form->get('security'));
+echo $this->formHidden($postFieldset->get('id'));
+echo $this->formRow($postFieldset->get('titre'));
+echo $this->formRow($postFieldset->get('contenu'));
+
+echo $this->formInput($form->get('submit'));
+
+echo $this->form()->closeTag($form);

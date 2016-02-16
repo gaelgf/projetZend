@@ -11,170 +11,113 @@ namespace Admin\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Zend\Form\FormInterface;
-use Admin\Form\PostForm;
-use Admin\Entity\Post;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Query;
+
+use Stdlib\Model\Registry;
+use Admin\Entity\Post;
+use Admin\Form\PostForm;
 
 class PostController extends AbstractActionController
 {
 
     /**
-     * @var Doctrine\ORM\EntityManager
-     */
-    protected $em;
-    public function getEntityManager()
-    {
-        if (null === $this->em) {
-            $this->em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
-        }
-        return $this->em;
+   * @var EntityManager
+   */
+  protected $entityManager;
+
+  /**
+   * Sets the EntityManager
+   *
+   * @param EntityManager $em
+   * @access protected
+   * @return PostController
+   */
+  protected function setEntityManager(EntityManager $em)
+  {
+    $this->entityManager = $em;
+    return $this;
+  }
+
+  /**
+   * Returns the EntityManager
+   *
+   * Fetches the EntityManager from ServiceLocator if it has not been initiated
+   * and then returns it
+   *
+   * @access protected
+   * @return EntityManager
+   */
+  protected function getEntityManager()
+  {
+    if (null === $this->entityManager) {
+      $this->setEntityManager($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
     }
+    return $this->entityManager;
+  }
 
     public function indexAction()
     {
-    	$post = $this->getEntityManager()->getRepository('Admin\Entity\Post')->findAll();
+    	$posts = $this->getEntityManager()->getRepository('Admin\Entity\Post')->findAll();
         
         $layout = $this->layout();
         $layout->setTemplate('layout/admin');
         
-        return new ViewModel(array('post' => $post));
+        return new ViewModel(array('posts' => $posts));
     }
 
      public function addAction()
     {
-        $form = new PostForm();
-        $form->get('submit')->setAttribute('label', 'Add');
-        //Initialise la liste des categories
-        $categories = $this->getEntityManager()->getRepository('Admin\Entity\Categorie')->findAll();
-        $options = array(""=>"");
-        foreach($categories as $cat) {
-            $options[$cat->id] = $cat->nom;
-        }
-        $form->setCategorie($options);
-        $request = $this->getRequest();
-        //Vérifie le type de la requête
-        if ($request->isPost()) {
-            $post = new Post();
-            //Initialisation du formulaire à partir des données reçues
-            $form->setData($request->getPost());
-            //Ajout des filtres de validation basés sur l'objet Page
-            $form->setInputFilter($post->getInputFilter());
-            //Contrôle les champs
+        // Get your ObjectManager from the ServiceManager
+        $objectManager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+
+        // Create the form and inject the ObjectManager
+        $form = new PostForm($objectManager);
+
+        // Create a new, empty entity and bind it to the form
+        $post = new Post();
+        $form->bind($post);
+
+        if ($this->request->isPost()) {
+            $form->setData($this->request->getPost());
+
             if ($form->isValid()) {
-                $post->exchangeArray($form->getData(FormInterface::VALUES_AS_ARRAY));
-                $categorieId = $form->get('categorie_id')->getValue();
-                $form->bindValues();
-                $categorie = null;
-                if (!empty($categorieId)) {
-                    $categorie = $this->getEntityManager()->find('Admin\Entity\Categorie', $categorieId);
-                }
-                $post->setCategorie($categorie);
-                $this->getEntityManager()->persist($post);
-                $this->getEntityManager()->flush();
-                //Redirection vers la liste des pages
-                return $this->redirect()->toRoute('post');
+                $objectManager->persist($post);
+                $objectManager->flush();
             }
         }
+
         return array('form' => $form);
     }
     
+
     public function editAction()
     {
-        $id = (int)$this->getEvent()->getRouteMatch()->getParam('id');
-        //Si l'Id est vie on redirige vers l'ajout
-        if (!$id) {
-            return $this->redirect()->toRoute('post', array('action'=>'add'));
-        }
-        //Sinon on charge le post correspondant à l'Id
-        $post = $this->getEntityManager()->find('Admin\Entity\Post', $id);
-        $form = new PostForm();
-        //Initialise la liste des categories
-        $categories = $this->getEntityManager()->getRepository('Admin\Entity\Categorie')->findAll();
-        $options = array(""=>"");
-        foreach($categories as $cat) {
-            $options[$cat->id] = $cat->nom;
-        }
-        $form->setCategorie($options);
-        //On charge ces données dans le formulaire initialise aussi les InputFilter
-        $form->setBindOnValidate(false);
+        // Get your ObjectManager from the ServiceManager
+        $objectManager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+
+        // Create the form and inject the ObjectManager
+        $form = new PostForm($objectManager);
+
+        // Create a new, empty entity and bind it to the form
+        $post = $this->userService->get($this->params('post_id'));
         $form->bind($post);
-        $form->get('categorie_id')->setValue($post->getCategorie() != null ? $post->getCategorie()->getId() : '');
-        $form->get('submit')->setAttribute('label', 'Edit');
-        $request = $this->getRequest();
-        //Vérifie le type de la requête
-        if ($request->isPost()) {
-            $form->setData($request->getPost());
-            //Contrôle les champs
+
+        if ($this->request->isPost()) {
+            $form->setData($this->request->getPost());
+
             if ($form->isValid()) {
-                $categorieId = $form->get('categorie_id')->getValue();
-                $form->bindValues();
-                $categorie = null;
-                if (!empty($categorieId)) {
-                    $categorie = $this->getEntityManager()->find('Admin\Entity\Categorie', $categorieId);
-                }
-                $post->setCategorie($categorie);
-                $this->getEntityManager()->flush();
-                //Redirection vers la liste des post
-                return $this->redirect()->toRoute('post');
+                // Save the changes
+                $objectManager->flush();
             }
         }
-        return array(
-            'id' => $id,
-            'form' => $form,
-        );
+
+        return array('form' => $form);
     }
     
     public function deleteAction()
     {
-        $id = (int)$this->getEvent()->getRouteMatch()->getParam('id');
-        if (!$id) {
-            return $this->redirect()->toRoute('post');
-        }
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            $del = $request->getPost('del', 'Non');
-            if ($del == 'Oui') {
-                $id = (int)$request->getPost('id');
-                $post = $this->getEntityManager()->find('Admin\Entity\Post', $id);
-                if ($post) {
-                    $this->getEntityManager()->remove($post);
-                    $this->getEntityManager()->flush();
-                }
-            }
-            //Redirection vers la liste des postes
-            return $this->redirect()->toRoute('post');
-        }
-        return array(
-            'id' => $id,
-            'post' => $this->getEntityManager()->find('Admin\Entity\Post', $id)
-        );
+        
     }
-    public function viewAction()
-    {
-        $id = (int)$this->getEvent()->getRouteMatch()->getParam('id');
-        //Si l'Id est vie on redirige vers la liste
-        if (!$id) {
-            return $this->redirect()->toRoute('post');
-        }
-        try{
-            //Sinon on charge le post correspondant à l'Id
-            $post = $this->getEntityManager()->find('Admin\Entity\Post', $id);
-        }
-        catch(\Exception $e){
-                //Si la post n'existe pas en base on génère une erreur 404
-                $response   = $this->response;
-                $event    = $this->getEvent();
-                $routeMatch = $event->getRouteMatch();
-                $response->setStatusCode(404);
-                $event->setParam('exception', new \Exception('Post Inconnue'.$id));
-                $event->setController('post');
-                return ;
-        }
-        return new ViewModel(array(
-            'post' => $post
-        ));
-    }
+   
 
 }

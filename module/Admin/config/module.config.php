@@ -71,16 +71,7 @@ return array(
             
         ),
     ),
-    'service_manager' => array(
-        'abstract_factories' => array(
-            'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
-            'Zend\Log\LoggerAbstractServiceFactory',
-        ),
-        'factories' => array(
-            'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
-            'Application\Service\UserService' => 'Application\Service\Factory\UserServiceFactory'
-        ),
-    ),
+    
     'translator' => array(
         'locale' => 'en_US',
         'translation_file_patterns' => array(
@@ -96,6 +87,14 @@ return array(
             'Admin\Controller\Index' => Controller\IndexController::class,
             'Admin\Controller\Post' => Controller\PostController::class,
             'Admin\Controller\Categorie' => Controller\CategorieController::class
+        ),
+        'factories' => array(
+            'Admin\Controller\Post' => 'Admin\Factory\Controller\PostControllerFactory',  
+        ),
+    ),
+    'form_elements' => array(
+        'factories' => array(
+            'Admin\Form\PostForm' => 'Admin\Factory\Form\PostFormFactory',  
         ),
     ),
     'view_manager' => array(

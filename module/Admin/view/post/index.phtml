@@ -1,33 +1,29 @@
 <?php
-$title = 'Liste des Articles';
+$title = 'Post Overview';
 $this->headTitle($title);
 ?>
-<h1><?=$this->escapeHtml($title)?></h1>
- 
-<a href="<?=$this->url('post', array('action'=>'add'))?>">Ajouter un article</a> |
-<a href="<?=$this->url('categorie', array('action'=>'index'))?>">Gérer les catégories</a>
-<table class="table">
-    <tr>
-        <th>Titre</th>
-        <th>Contenu</th>
-        <th>&nbsp;</th>
-    </tr>
-    <?foreach($posts as $post):?>
-    <tr>
-        <td><a href="<?=$this->url('post', array('action'=>'view', 'id' => $post->id))?>">
-                <?=$this->escapeHtml($post->titre)?>
-            </a>
-            <?if($post->categorie != null):?>
-               (<?=$this->escapeHtml($post->categorie->nom)?>)
-            <?endif?>
-        </td>
-        <td>
-            <?=$this->escapeHtml($post->contenu)?>
-        </td>
-        <td>
-            <a href="<?=$this->url('post', array('action'=>'edit', 'id' => $post->id))?>">Modifier</a>
-            <a href="<?=$this->url('post', array('action'=>'delete', 'id' => $post->id))?>">Supprimer</a>
-        </td>
-    </tr>
-    <?endforeach?>
-</table>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<p>
+  <a href="<?php echo $this->url('post', array('action'=>'add'));?>">Add new Post</a>
+</p>
+<?php foreach ($posts as $post) : ?>
+<article>
+  <h1><?php echo $this->escapeHtml($post->getTitre());?></h1>
+  <p>
+    <?php echo $this->escapeHtml($post->getContenu());?>
+  </p>
+  <aside>
+    <ul>
+      <li><a href="<?php echo $this->url('post', array(
+        'action'=>'edit',
+        'id'=>$post->getId()
+      ));
+      ?>">Edit this Post</a></li>
+      <li><a href="<?php echo $this->url('post', array(
+        'action'=>'delete',
+        'id'=>$post->getId()
+      ));?>">Delete this Post</a></li>
+    </ul>
+  </aside>
+</article>
+<?php endforeach; ?>
