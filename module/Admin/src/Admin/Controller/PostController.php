@@ -25,7 +25,7 @@ class PostController extends EntityUsingController
     public function indexAction()
     {
         $em = $this->getEntityManager();
-        $posts = $em->getRepository('Admin\Entity\Post')->findBy(array(), array('_titre' => 'ASC'));
+        $posts = $em->getRepository('Admin\Entity\Post')->findBy(array(), array('titre' => 'ASC'));
         
         $layout = $this->layout();
         $layout->setTemplate('layout/admin');

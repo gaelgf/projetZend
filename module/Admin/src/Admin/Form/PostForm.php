@@ -21,7 +21,7 @@ class PostForm extends Form
             'type'  => 'textarea',
             'options' => array('label' => 'Contenu',),
         ));
-        /*$this->add(array(
+        $this->add(array(
             'name' => 'categorie',
             'type' => 'DoctrineModule\Form\Element\ObjectSelect',
             'options' => array(
@@ -31,9 +31,9 @@ class PostForm extends Form
                 'property' => 'nom'
             ),
             'attributes' => array(
-                'required' => true
+                'required' => false
             )
-        ));*/
+        ));
         $this->add(array(
             'name' => 'submit',
             'attributes' => array(

@@ -1,9 +1,11 @@
 <?php
 namespace Admin\Controller;
+
 use Application\Controller\EntityUsingController;
 use Zend\View\Model\ViewModel;
 use Admin\Form\CategorieForm;
 use Admin\Entity\Categorie;
+
 class CategorieController extends EntityUsingController
 {
     /**
@@ -13,7 +15,7 @@ class CategorieController extends EntityUsingController
     public function indexAction()
     {
         $em = $this->getEntityManager();
-        $categories = $em->getRepository('Admin\Entity\Categorie')->findBy(array(), array('_nom' => 'ASC'));
+        $categories = $em->getRepository('Admin\Entity\Categorie')->findBy(array(), array('nom' => 'ASC'));
         
         $layout = $this->layout();
         $layout->setTemplate('layout/admin');
@@ -31,10 +33,13 @@ class CategorieController extends EntityUsingController
         if ($request->isPost()) {
             $form->setInputFilter($categorie->getInputFilter());
             $form->setData($request->getPost());
+
             if ($form->isValid()) {
+
                 $em = $this->getEntityManager();
                 $em->persist($categorie);
                 $em->flush();
+
                 $this->flashMessenger()->addSuccessMessage('Categorie Enregistré');
                 return $this->redirect()->toRoute('categorie');
             }

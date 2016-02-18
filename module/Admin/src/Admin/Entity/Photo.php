@@ -27,17 +27,17 @@ class Photo
      * @ORM\Column(type="integer", name="id")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $_id;
+    protected $id;
     /**
      * @var string lien
      * @ORM\Column(type="string", length=255, unique=true, nullable=true, name="lien")
      */
-    protected $_lien;
+    protected $lien;
     /**
      * @var string alt
      * @ORM\Column(type="string", unique=true,  length=255, name="alt")
      */
-    protected $_alt;
+    protected $alt;
     
  
     /*********************************
@@ -52,7 +52,7 @@ class Photo
      */
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
      
     /**
@@ -61,7 +61,7 @@ class Photo
      */
     public function getLien()
     {
-        return $this->_lien;
+        return $this->lien;
     }
      
     /**
@@ -70,7 +70,7 @@ class Photo
      */
     public function getAlt()
     {
-        return $this->_alt;
+        return $this->alt;
     }
      
     
@@ -84,7 +84,7 @@ class Photo
      */
     public function setId($id)
     {
-        $this->_id = (int) $id;
+        $this->id = (int) $id;
         return $this;
     }
      
@@ -95,7 +95,7 @@ class Photo
      */
     public function setLien($lien)
     {
-        $this->_lien = $lien;
+        $this->lien = $lien;
         return $this;
     }
      
@@ -106,7 +106,7 @@ class Photo
      */
     public function setAlt($alt)
     {
-        $this->_alt = $alt;
+        $this->alt = $alt;
         return $this;
     }
      

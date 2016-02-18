@@ -12,6 +12,7 @@ use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
+
  
 /**
  * Représentation d'un categorie
@@ -33,17 +34,12 @@ class Categorie implements InputFilterAwareInterface
      * @ORM\Column(type="integer", name="id")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $_id;
+    protected $id;
     /**
      * @var string nom
      * @ORM\Column(type="string", length=255, unique=true, nullable=true, name="nom")
      */
-    protected $_nom;
-
-    /**
-    * @ORM\ManyToMany(targetEntity="Admin\Entity\Post", inversedBy="categorie", cascade={"persist"})
-    */
-    private $_post;
+    protected $nom;
 
     protected $inputFilter;
 
@@ -61,7 +57,7 @@ class Categorie implements InputFilterAwareInterface
      */
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
      
     /**
@@ -70,7 +66,7 @@ class Categorie implements InputFilterAwareInterface
      */
     public function getNom()
     {
-        return $this->_nom;
+        return $this->nom;
     }
      
    
@@ -83,7 +79,7 @@ class Categorie implements InputFilterAwareInterface
      */
     public function setId($id)
     {
-        $this->_id = (int) $id;
+        $this->id = (int) $id;
         return $this;
     }
      
@@ -94,7 +90,7 @@ class Categorie implements InputFilterAwareInterface
      */
     public function setNom($nom)
     {
-        $this->_nom = $nom;
+        $this->nom = $nom;
         return $this;
     }
      
@@ -123,8 +119,8 @@ class Categorie implements InputFilterAwareInterface
     */
     public function exchangeArray($data)
     {
-        $this->_id = (isset($data['id']))? $data['id'] : null;
-        $this->_nom = (isset($data['nom']))? $data['nom'] : null;
+        $this->id = (isset($data['id']))? $data['id'] : null;
+        $this->nom = (isset($data['nom']))? $data['nom'] : null;
     }
     /**
     * Get an array copy of object
@@ -154,13 +150,20 @@ class Categorie implements InputFilterAwareInterface
         if (!$this->inputFilter) {
             $inputFilter = new InputFilter();
             $factory     = new InputFactory();
-            $inputFilter->add($factory->createInput(array(
+            /*$inputFilter->add($factory->createInput(array(
                 'name'     => 'id',
                 'required' => true,
                 'filters'  => array(
                     array('name' => 'Int'),
                 ),
             )));
+            $inputFilter->add(array(
+                'name' => 'id',
+                'required' => true,
+                'filters' => array(
+                     array('name' => 'Int'),
+                  ),
+             ));*/
             $inputFilter->add($factory->createInput(array(
                 'name'     => 'nom',
                 'required' => true,
@@ -181,6 +184,7 @@ class Categorie implements InputFilterAwareInterface
             )));
             $this->inputFilter = $inputFilter;
         }
+
         return $this->inputFilter;
     }
 

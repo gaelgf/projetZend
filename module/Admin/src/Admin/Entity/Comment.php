@@ -27,21 +27,21 @@ class Comment
      * @ORM\Column(type="integer", name="id")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $_id;
+    protected $id;
     /**
      * @var string email
      * @ORM\Column(type="string", length=255, unique=true, nullable=true, name="email")
      */
-    protected $_email;
+    protected $email;
     /**
      * @var string contenu
      * @ORM\Column(type="string", unique=true,  length=255, name="contenu")
      */
-    protected $_contenu;
+    protected $contenu;
     /**
     * @ORM\OneToOne(targetEntity="Admin\Entity\Post", cascade={"persist"})
     */
-    private $_post;
+    private $post;
 
  
     /*********************************
@@ -56,7 +56,7 @@ class Comment
      */
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
      
     /**
@@ -65,7 +65,7 @@ class Comment
      */
     public function getEmail()
     {
-        return $this->_email;
+        return $this->email;
     }
      
     /**
@@ -74,7 +74,7 @@ class Comment
      */
     public function getContenu()
     {
-        return $this->_contenu;
+        return $this->contenu;
     }
      
     /**
@@ -83,7 +83,7 @@ class Comment
      */
     public function getPost()
     {
-        return $this->_post;
+        return $this->post;
     }
      
      
@@ -96,7 +96,7 @@ class Comment
      */
     public function setId($id)
     {
-        $this->_id = (int) $id;
+        $this->id = (int) $id;
         return $this;
     }
      
@@ -107,7 +107,7 @@ class Comment
      */
     public function setEmail($email)
     {
-        $this->_email = $email;
+        $this->email = $email;
         return $this;
     }
      
@@ -118,7 +118,7 @@ class Comment
      */
     public function setContenu($contenu)
     {
-        $this->_contenu = $contenu;
+        $this->contenu = $contenu;
         return $this;
     }
      
@@ -129,7 +129,7 @@ class Comment
      */
     public function setPost(Admin\Entity\Post $post = null)
     {
-        $this->_post = $post;
+        $this->post = $post;
         return $this;
     }
      

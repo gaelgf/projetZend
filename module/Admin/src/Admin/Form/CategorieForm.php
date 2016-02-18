@@ -12,6 +12,7 @@ class CategorieForm extends Form
             'type'  => 'text',
             'options' => array('label' => 'Nom',),
         ));
+        
         $this->add(array(
             'name' => 'submit',
             'attributes' => array(
@@ -20,5 +21,6 @@ class CategorieForm extends Form
                 'id' => 'submitbutton',
             ),
         ));
+        //var_dump($this);exit();
     }
 }

@@ -34,37 +34,37 @@ class Post implements InputFilterAwareInterface
      * @ORM\Column(type="integer", name="id")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $_id;
+    protected $id;
     /**
      * @var string titre
      * @ORM\Column(type="string", length=255, unique=true, nullable=true, name="titre")
      */
-    protected $_titre;
+    protected $titre;
     /**
      * @var string contenu
      * @ORM\Column(type="string", unique=true,  length=255, name="contenu")
      */
-    protected $_contenu;
+    protected $contenu;
     /**
     * @ORM\OneToOne(targetEntity="Admin\Entity\User", cascade={"persist"})
-    * @JoinColumn(name="user_id", referencedColumnName="user_id")
     */
-    private $_user;
+    private $user;
 
     /**
     * @ORM\OneToOne(targetEntity="Admin\Entity\Photo", cascade={"persist"})
     */
-    private $_photo;
+    private $photo;
     
     /**
     * @ORM\OneToOne(targetEntity="Admin\Entity\Comment", cascade={"persist"})
     */
-    private $_comment;
+    private $comment;
 
     /**
-    * @ORM\ManyToMany(targetEntity="Admin\Entity\Categorie", mappedBy="Post", cascade={"persist"})
+    * @ORM\ManyToOne(targetEntity="Admin\Entity\Categorie", cascade={"persist"})
+    * @ORM\JoinColumn(name="categorie_id", referencedColumnName="id")
     */
-    private $_categorie;
+    private $categorie;
     protected $inputFilter;
  
     /*********************************
@@ -79,7 +79,7 @@ class Post implements InputFilterAwareInterface
      */
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
      
     /**
@@ -88,7 +88,7 @@ class Post implements InputFilterAwareInterface
      */
     public function getTitre()
     {
-        return $this->_titre;
+        return $this->titre;
     }
      
     /**
@@ -97,7 +97,7 @@ class Post implements InputFilterAwareInterface
      */
     public function getContenu()
     {
-        return $this->_contenu;
+        return $this->contenu;
     }
      
     /**
@@ -106,7 +106,7 @@ class Post implements InputFilterAwareInterface
      */
     public function getUser()
     {
-        return $this->_user;
+        return $this->user;
     }
      
     /**
@@ -115,7 +115,7 @@ class Post implements InputFilterAwareInterface
      */
     public function getPhoto()
     {
-        return $this->_photo;
+        return $this->photo;
     }   
      
     /**
@@ -124,7 +124,7 @@ class Post implements InputFilterAwareInterface
      */
     public function getComment()
     {
-        return $this->_comment;
+        return $this->comment;
     }
   
     /**
@@ -134,7 +134,7 @@ class Post implements InputFilterAwareInterface
     */
     public function getCategorie()
     {
-        return $this->_categorie;
+        return $this->categorie;
     } 
      
     /*********** SETTERS ************/
@@ -146,7 +146,7 @@ class Post implements InputFilterAwareInterface
      */
     public function setId($id)
     {
-        $this->_id = (int) $id;
+        $this->id = (int) $id;
         return $this;
     }
      
@@ -157,7 +157,7 @@ class Post implements InputFilterAwareInterface
      */
     public function setTitre($titre)
     {
-        $this->_titre = $titre;
+        $this->titre = $titre;
         return $this;
     }
      
@@ -168,7 +168,7 @@ class Post implements InputFilterAwareInterface
      */
     public function setContenu($contenu)
     {
-        $this->_contenu = $contenu;
+        $this->contenu = $contenu;
         return $this;
     }
      
@@ -179,7 +179,7 @@ class Post implements InputFilterAwareInterface
      */
     public function setUser(Admin\Entity\User $user = null)
     {
-        $this->_user = $user;
+        $this->user = $user;
         return $this;
     }
      
@@ -190,7 +190,7 @@ class Post implements InputFilterAwareInterface
      */
     public function setPhoto(Admin\Entity\Photo $photo = null)
     {
-        $this->_photo = $photo;
+        $this->photo = $photo;
         return $this;
     }   
      
@@ -201,7 +201,7 @@ class Post implements InputFilterAwareInterface
      */
     public function setComment(Admin\Entity\Comment $comment = null)
     {
-        $this->_comment = $comment;
+        $this->comment = $comment;
         return $this;
     }
 
@@ -213,7 +213,7 @@ class Post implements InputFilterAwareInterface
     */
     public function setCategorie(Admin\Entity\Categorie $categorie = null)
     {
-        $this->_categorie = $categorie;
+        $this->categorie = $categorie;
         return $this;
     }
     /*********************************
@@ -241,10 +241,10 @@ class Post implements InputFilterAwareInterface
     */
     public function exchangeArray($data)
     {
-        $this->_id = (isset($data['_id']))? $data['_id'] : null;
-        $this->_titre = (isset($data['_titre']))? $data['_titre'] : null;
-        $this->_contenu = (isset($data['_contenu']))? $data['_contenu'] : null;
-        $this->_categorie = (isset($data['_categorie']))? $data['_categorie'] : null;
+        $this->id = (isset($data['id']))? $data['id'] : null;
+        $this->titre = (isset($data['titre']))? $data['titre'] : null;
+        $this->contenu = (isset($data['contenu']))? $data['contenu'] : null;
+        $this->categorie = (isset($data['categorie']))? $data['categorie'] : null;
     }
     /**
     * Get an array copy of object
@@ -253,7 +253,7 @@ class Post implements InputFilterAwareInterface
     */
     public function getArrayCopy()
     {
-        return get_object_vars($this);
+        return getobjectvars($this);
     }
     /**
     * Set input method
@@ -274,15 +274,15 @@ class Post implements InputFilterAwareInterface
         if (!$this->inputFilter) {
             $inputFilter = new InputFilter();
             $factory     = new InputFactory();
-            $inputFilter->add($factory->createInput(array(
-                'name'     => '_id',
+            /*$inputFilter->add($factory->createInput(array(
+                'name'     => 'id',
                 'required' => true,
                 'filters'  => array(
                     array('name' => 'Int'),
                 ),
-            )));
+            )));*/
             $inputFilter->add($factory->createInput(array(
-                'name'     => '_titre',
+                'name'     => 'titre',
                 'required' => true,
                 'filters'  => array(
                     array('name' => 'StripTags'),
@@ -300,7 +300,7 @@ class Post implements InputFilterAwareInterface
                 ),
             )));
             $inputFilter->add($factory->createInput(array(
-                'name'     => '_contenu',
+                'name'     => 'contenu',
                 'required' => true,
                 'filters'  => array(
                     array('name' => 'StringTrim'),
