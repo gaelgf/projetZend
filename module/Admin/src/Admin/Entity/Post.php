@@ -5,8 +5,14 @@
  *
  */
 namespace Admin\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
+
+use Zend\InputFilter\Factory as InputFactory;
+use Zend\InputFilter\InputFilter;
+use Zend\InputFilter\InputFilterAwareInterface;
+use Zend\InputFilter\InputFilterInterface;
 
 /**
  * Représentation d'un post
@@ -16,7 +22,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
  *
  * @author
  */
-class Post 
+class Post implements InputFilterAwareInterface
 {
     /*********************************
      * ATTRIBUTS
@@ -56,9 +62,10 @@ class Post
     private $_comment;
 
     /**
-    * @ORM\ManyToMany(targetEntity="Admin\Entity\Categorie", cascade={"persist"})
+    * @ORM\ManyToMany(targetEntity="Admin\Entity\Categorie", mappedBy="Post", cascade={"persist"})
     */
-    //private $_categorie;
+    private $_categorie;
+    protected $inputFilter;
  
     /*********************************
      * ACCESSEURS
@@ -119,14 +126,16 @@ class Post
     {
         return $this->_comment;
     }
-
-
-  public function getCategorie()
-  {
-    return $this->categorie;
-  }
-       
-     
+  
+    /**
+    * obtient categorie
+    *
+    * @return Admin\Entity\Categorie
+    */
+    public function getCategorie()
+    {
+        return $this->_categorie;
+    } 
      
     /*********** SETTERS ************/
      
@@ -195,6 +204,18 @@ class Post
         $this->_comment = $comment;
         return $this;
     }
+
+       /**
+    * Définit la categorie
+    *
+    * @param Admin\Entity\Categorie 
+    * @return Post
+    */
+    public function setCategorie(Admin\Entity\Categorie $categorie = null)
+    {
+        $this->_categorie = $categorie;
+        return $this;
+    }
     /*********************************
      * CONSTRUCTEUR / DESTRUCTEUR
     *********************************/
@@ -204,7 +225,7 @@ class Post
      */
     public function __construct()
     {
-        //$this->categorie = new ArrayCollection();
+        
     }
  
     /*********************************
@@ -212,22 +233,92 @@ class Post
     *********************************/
      
     /************ PUBLIC ************/
-    // on ajoute une seule catégorie à la fois
-  public function addCategorie(Categorie $categorie)
-  {
-    // Ici, on utilise l'ArrayCollection vraiment comme un tableau
-    $this->categorie[] = $categorie;
+   
+    /**
+    * Exchange array - used in ZF2 form
+    *
+    * @param array $data An array of data
+    */
+    public function exchangeArray($data)
+    {
+        $this->_id = (isset($data['_id']))? $data['_id'] : null;
+        $this->_titre = (isset($data['_titre']))? $data['_titre'] : null;
+        $this->_contenu = (isset($data['_contenu']))? $data['_contenu'] : null;
+        $this->_categorie = (isset($data['_categorie']))? $data['_categorie'] : null;
+    }
+    /**
+    * Get an array copy of object
+    *
+    * @return array
+    */
+    public function getArrayCopy()
+    {
+        return get_object_vars($this);
+    }
+    /**
+    * Set input method
+    *
+    * @param InputFilterInterface $inputFilter
+    */
+    public function setInputFilter(InputFilterInterface $inputFilter)
+    {
+        throw new \Exception("Not used");
+    }
+    /**
+    * Get input filter
+    *
+    * @return InputFilterInterface
+    */
+    public function getInputFilter()
+    {
+        if (!$this->inputFilter) {
+            $inputFilter = new InputFilter();
+            $factory     = new InputFactory();
+            $inputFilter->add($factory->createInput(array(
+                'name'     => '_id',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'Int'),
+                ),
+            )));
+            $inputFilter->add($factory->createInput(array(
+                'name'     => '_titre',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 255,
+                        ),
+                    ),
+                ),
+            )));
+            $inputFilter->add($factory->createInput(array(
+                'name'     => '_contenu',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                        ),
+                    ),
+                ),
+            )));
+            $this->inputFilter = $inputFilter;
+        }
+        return $this->inputFilter;
+    }
 
-    return $this;
-  }
 
-  public function removeCategorie(Categorie $categorie)
-  {
-    // Ici on utilise une méthode de l'ArrayCollection, pour supprimer la catégorie en argument
-    $this->categories->removeElement($categorie);
-  }
-  
-    /*********** PROTECTED **********/
-     
-    /************ PRIVATE ***********/
-}
+}//end class

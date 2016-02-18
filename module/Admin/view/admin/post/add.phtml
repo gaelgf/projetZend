@@ -1,17 +1,12 @@
-<h1>Add a new Post</h1>
 <?php
-$form->setAttribute('action', $this->url('post', array('action'=>'add')))
-     ->prepare();
+$title = 'Add Post';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
 
-echo $this->form()->openTag($form);
-
-$postFieldset = $form->get('post');
-
-echo $this->formHidden($form->get('security'));
-echo $this->formHidden($postFieldset->get('id'));
-echo $this->formRow($postFieldset->get('titre'));
-echo $this->formRow($postFieldset->get('contenu'));
-
-echo $this->formInput($form->get('submit'));
-
-echo $this->form()->closeTag($form);
+<?php
+	$form->setAttribute('action', $this->url('post',array('action' => 'add')));
+	$form->setAttribute('class', 'form-horizontal');
+	
+	echo $this->ztbForm($this->form);
+?>

@@ -1,12 +1,11 @@
 <?php
-$title = 'Ajouter une Catégorie';
+$title = 'Add Categorie';
 $this->headTitle($title);
-$form = $this->form;
-$form->setAttribute('action', $this->url('categorie', array('action' => 'add', 'id'=>$this->id)));
 ?>
-<h1><?=$this->escapeHtml($title)?></h1>
-<?=$this->form()->openTag($form)?>
-<?=$this->formRow($form->get('id'))?>
-<?=$this->formRow($form->get('nom'))?>
-<?=$this->formRow($form->get('submit'))?>
-<?=$this->form()->closeTag($form)?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<?php
+	$form->setAttribute('action', $this->url('categorie',array('action' => 'add')));
+	$form->setAttribute('class', 'form-horizontal');
+	
+	echo $this->ztbForm($this->form);

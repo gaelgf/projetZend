@@ -14,6 +14,7 @@
         "doctrine/doctrine-orm-module": "0.*",
         "zf-commons/zfc-user": "*",
         "zf-commons/zfc-user-doctrine-orm": "0.1.*",
+        "mwillbanks/zfc-twitter-bootstrap": "@dev",
         "zendframework/zend-developer-tools": "dev-master"
     }
 }

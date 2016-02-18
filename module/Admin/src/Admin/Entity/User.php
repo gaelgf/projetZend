@@ -28,32 +28,32 @@ class User implements UserInterface
      * @ORM\Column(type="integer", name="id")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $_id;
+    protected $id;
     /**
      * @var string Le login
      * @ORM\Column(type="string", length=255, unique=true, nullable=true, name="username")
      */
-    protected $_username;
+    protected $username;
     /**
      * @var string L'email
      * @ORM\Column(type="string", unique=true,  length=255, name="email")
      */
-    protected $_email;
+    protected $email;
     /**
      * @var string Le nom affiché
      * @ORM\Column(type="string", length=50, nullable=true, name="display_name")
      */
-    protected $_displayName;
+    protected $displayName;
     /**
      * @var string Le mot de passe
      * @ORM\Column(type="string", length=128, name="password")
      */
-    protected $_password;
+    protected $password;
     /**
      * @var int Statut du compte
      * @ORM\Column(type="integer", name="state")
      */
-    protected $_state;
+    protected $state;
  
     /*********************************
      * ACCESSEURS
@@ -67,7 +67,7 @@ class User implements UserInterface
      */
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
      
     /**
@@ -76,7 +76,7 @@ class User implements UserInterface
      */
     public function getUsername()
     {
-        return $this->_username;
+        return $this->username;
     }
      
     /**
@@ -85,7 +85,7 @@ class User implements UserInterface
      */
     public function getEmail()
     {
-        return $this->_email;
+        return $this->email;
     }
      
     /**
@@ -94,7 +94,7 @@ class User implements UserInterface
      */
     public function getDisplayName()
     {
-        return $this->_displayName;
+        return $this->displayName;
     }
      
     /**
@@ -103,7 +103,7 @@ class User implements UserInterface
      */
     public function getPassword()
     {
-        return $this->_password;
+        return $this->password;
     }   
      
     /**
@@ -112,7 +112,7 @@ class User implements UserInterface
      */
     public function getState()
     {
-        return $this->_state;
+        return $this->state;
     }
      
      
@@ -125,7 +125,7 @@ class User implements UserInterface
      */
     public function setId($id)
     {
-        $this->_id = (int) $id;
+        $this->id = (int) $id;
         return $this;
     }
      
@@ -136,7 +136,7 @@ class User implements UserInterface
      */
     public function setUsername($username)
     {
-        $this->_username = $username;
+        $this->username = $username;
         return $this;
     }
      
@@ -147,7 +147,7 @@ class User implements UserInterface
      */
     public function setEmail($email)
     {
-        $this->_email = $email;
+        $this->email = $email;
         return $this;
     }
      
@@ -158,7 +158,7 @@ class User implements UserInterface
      */
     public function setDisplayName($displayName)
     {
-        $this->_displayName = $displayName;
+        $this->displayName = $displayName;
         return $this;
     }
      
@@ -169,7 +169,7 @@ class User implements UserInterface
      */
     public function setPassword($password)
     {
-        $this->_password = $password;
+        $this->password = $password;
         return $this;
     }
      
@@ -180,7 +180,7 @@ class User implements UserInterface
      */
     public function setState($state)
     {
-        $this->_state = $state;
+        $this->state = $state;
         return $this;
     }
      

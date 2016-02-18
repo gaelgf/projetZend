@@ -5,8 +5,13 @@
  *
  */
 namespace Admin\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
-use ZfcUser\Entity\UserInterface;
+
+use Zend\InputFilter\Factory as InputFactory;
+use Zend\InputFilter\InputFilter;
+use Zend\InputFilter\InputFilterAwareInterface;
+use Zend\InputFilter\InputFilterInterface;
  
 /**
  * Représentation d'un categorie
@@ -16,7 +21,7 @@ use ZfcUser\Entity\UserInterface;
  *
  * @author
  */
-class Categorie 
+class Categorie implements InputFilterAwareInterface
 {
     /*********************************
      * ATTRIBUTS
@@ -34,6 +39,13 @@ class Categorie
      * @ORM\Column(type="string", length=255, unique=true, nullable=true, name="nom")
      */
     protected $_nom;
+
+    /**
+    * @ORM\ManyToMany(targetEntity="Admin\Entity\Post", inversedBy="categorie", cascade={"persist"})
+    */
+    private $_post;
+
+    protected $inputFilter;
 
 
  
@@ -104,9 +116,73 @@ class Categorie
      * METHODES
     *********************************/
      
-    /************ PUBLIC ************/
-         
-    /*********** PROTECTED **********/
-     
-    /************ PRIVATE ***********/
+    /**
+    * Exchange array - used in ZF2 form
+    *
+    * @param array $data An array of data
+    */
+    public function exchangeArray($data)
+    {
+        $this->_id = (isset($data['id']))? $data['id'] : null;
+        $this->_nom = (isset($data['nom']))? $data['nom'] : null;
+    }
+    /**
+    * Get an array copy of object
+    *
+    * @return array
+    */
+    public function getArrayCopy()
+    {
+        return get_object_vars($this);
+    }
+    /**
+    * Set input method
+    *
+    * @param InputFilterInterface $inputFilter
+    */
+    public function setInputFilter(InputFilterInterface $inputFilter)
+    {
+        throw new \Exception("Not used");
+    }
+    /**
+    * Get input filter
+    *
+    * @return InputFilterInterface
+    */
+    public function getInputFilter()
+    {
+        if (!$this->inputFilter) {
+            $inputFilter = new InputFilter();
+            $factory     = new InputFactory();
+            $inputFilter->add($factory->createInput(array(
+                'name'     => 'id',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'Int'),
+                ),
+            )));
+            $inputFilter->add($factory->createInput(array(
+                'name'     => 'nom',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 255,
+                        ),
+                    ),
+                ),
+            )));
+            $this->inputFilter = $inputFilter;
+        }
+        return $this->inputFilter;
+    }
+
+
 }

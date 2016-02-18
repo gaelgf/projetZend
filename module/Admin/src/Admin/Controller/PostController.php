@@ -9,115 +9,84 @@
 
 namespace Admin\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
+use Application\Controller\EntityUsingController;
+use DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity;
 use Zend\View\Model\ViewModel;
-use Doctrine\ORM\EntityManager;
 
-use Stdlib\Model\Registry;
 use Admin\Entity\Post;
 use Admin\Form\PostForm;
 
-class PostController extends AbstractActionController
+class PostController extends EntityUsingController
 {
-
     /**
-   * @var EntityManager
-   */
-  protected $entityManager;
-
-  /**
-   * Sets the EntityManager
-   *
-   * @param EntityManager $em
-   * @access protected
-   * @return PostController
-   */
-  protected function setEntityManager(EntityManager $em)
-  {
-    $this->entityManager = $em;
-    return $this;
-  }
-
-  /**
-   * Returns the EntityManager
-   *
-   * Fetches the EntityManager from ServiceLocator if it has not been initiated
-   * and then returns it
-   *
-   * @access protected
-   * @return EntityManager
-   */
-  protected function getEntityManager()
-  {
-    if (null === $this->entityManager) {
-      $this->setEntityManager($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
-    }
-    return $this->entityManager;
-  }
-
+    * Index action
+    *
+    */
     public function indexAction()
     {
-    	$posts = $this->getEntityManager()->getRepository('Admin\Entity\Post')->findAll();
+        $em = $this->getEntityManager();
+        $posts = $em->getRepository('Admin\Entity\Post')->findBy(array(), array('_titre' => 'ASC'));
         
         $layout = $this->layout();
         $layout->setTemplate('layout/admin');
-        
-        return new ViewModel(array('posts' => $posts));
+        return new ViewModel(array('posts' => $posts,));
     }
-
-     public function addAction()
-    {
-        // Get your ObjectManager from the ServiceManager
-        $objectManager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
-
-        // Create the form and inject the ObjectManager
-        $form = new PostForm($objectManager);
-
-        // Create a new, empty entity and bind it to the form
-        $post = new Post();
-        $form->bind($post);
-
-        if ($this->request->isPost()) {
-            $form->setData($this->request->getPost());
-
-            if ($form->isValid()) {
-                $objectManager->persist($post);
-                $objectManager->flush();
-            }
-        }
-
-        return array('form' => $form);
-    }
-    
-
+    /**
+    * Edit action
+    *
+    */
     public function editAction()
     {
-        // Get your ObjectManager from the ServiceManager
-        $objectManager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
-
-        // Create the form and inject the ObjectManager
-        $form = new PostForm($objectManager);
-
-        // Create a new, empty entity and bind it to the form
-        $post = $this->userService->get($this->params('post_id'));
+        $post = new Post;
+        if ($this->params('id') > 0) {
+            $post = $this->getEntityManager()->getRepository('Admin\Entity\Post')->find($this->params('id'));
+        }
+        $form = new PostForm($this->getEntityManager());
+        $form->setHydrator(new DoctrineEntity($this->getEntityManager(),'Admin\Entity\Post'));
         $form->bind($post);
-
-        if ($this->request->isPost()) {
-            $form->setData($this->request->getPost());
-
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $form->setInputFilter($post->getInputFilter());
+            $form->setData($request->getPost());
             if ($form->isValid()) {
-                // Save the changes
-                $objectManager->flush();
+                $em = $this->getEntityManager();
+                $em->persist($post);
+                $em->flush();
+                $this->flashMessenger()->addSuccessMessage('Post enregistré');
+                return $this->redirect()->toRoute('post');
             }
         }
-
-        return array('form' => $form);
+        $layout = $this->layout();
+        $layout->setTemplate('layout/admin');
+        return new ViewModel(array(
+            'post' => $post,
+            'form' => $form
+        ));
     }
-    
+    /**
+    * Add action
+    *
+    */
+    public function addAction()
+    {
+        $layout = $this->layout();
+        $layout->setTemplate('layout/admin');
+        return $this->editAction();
+    }
+    /**
+    * Delete action
+    *
+    */
     public function deleteAction()
     {
+        $post = $this->getEntityManager()->getRepository('Admin\Entity\Post')->find($this->params('id'));
+        if ($post) {
+            $em = $this->getEntityManager();
+            $em->remove($post);
+            $em->flush();
+            $this->flashMessenger()->addSuccessMessage('Post Supprimé');
+        }
         
+        return $this->redirect()->toRoute('post');
     }
-   
-
 }
