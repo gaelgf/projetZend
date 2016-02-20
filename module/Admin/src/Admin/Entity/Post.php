@@ -47,6 +47,7 @@ class Post implements InputFilterAwareInterface
     protected $contenu;
     /**
     * @ORM\OneToOne(targetEntity="Admin\Entity\User", cascade={"persist"})
+    * @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
     */
     private $user;
 

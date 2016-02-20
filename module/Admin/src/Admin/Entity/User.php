@@ -25,7 +25,7 @@ class User implements UserInterface
     /**
      * @var int L'identifiant utilisateur
      * @ORM\Id
-     * @ORM\Column(type="integer", name="id")
+     * @ORM\Column(type="integer", name="user_id")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
@@ -51,7 +51,7 @@ class User implements UserInterface
     protected $password;
     /**
      * @var int Statut du compte
-     * @ORM\Column(type="integer", name="state")
+     * @ORM\Column(type="integer", name="state", nullable=true)
      */
     protected $state;
  
