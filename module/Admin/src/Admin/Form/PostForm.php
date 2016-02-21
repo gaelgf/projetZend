@@ -29,9 +29,6 @@ class PostForm extends Form
                 'object_manager' => $em,
                 'target_class' => 'Admin\Entity\Categorie',
                 'property' => 'nom'
-            ),
-            'attributes' => array(
-                'required' => false
             )
         ));
         $this->add(array(

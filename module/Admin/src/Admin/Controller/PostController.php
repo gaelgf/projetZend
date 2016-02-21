@@ -38,23 +38,37 @@ class PostController extends EntityUsingController
     public function editAction()
     {
         $post = new Post;
+
         if ($this->params('id') > 0) {
             $post = $this->getEntityManager()->getRepository('Admin\Entity\Post')->find($this->params('id'));
         }
         $form = new PostForm($this->getEntityManager());
         $form->setHydrator(new DoctrineEntity($this->getEntityManager(),'Admin\Entity\Post'));
         $form->bind($post);
+        
         $request = $this->getRequest();
+
         if ($request->isPost()) {
+            $data = $request->getPost();
             $form->setInputFilter($post->getInputFilter());
-            $form->setData($request->getPost());
-            if ($form->isValid()) {
+            $form->setData($data);
+            
+            /*récupération de la catégorie*/
+            $cat = $data->get('categorie');
+            $categorie = $this->getEntityManager()->getRepository('Admin\Entity\Categorie')->find($cat);
+            
+            $post->setTitre($data->get('titre'));
+            $post->setContenu($data->get('contenu'));
+            $post->setCategorie($categorie);
+            
+            //if ($form->isValid()) {
                 $em = $this->getEntityManager();
-                $em->persist($post);
+                //$em->persist($post);
+                
                 $em->flush();
                 $this->flashMessenger()->addSuccessMessage('Post enregistré');
                 return $this->redirect()->toRoute('post');
-            }
+            //}
         }
         $layout = $this->layout();
         $layout->setTemplate('layout/admin');

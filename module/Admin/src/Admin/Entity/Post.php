@@ -62,7 +62,7 @@ class Post implements InputFilterAwareInterface
     private $comment;
 
     /**
-    * @ORM\ManyToOne(targetEntity="Admin\Entity\Categorie", cascade={"persist"})
+    * @ORM\OneToOne(targetEntity="Admin\Entity\Categorie", cascade={"persist"})
     * @ORM\JoinColumn(name="categorie_id", referencedColumnName="id")
     */
     private $categorie;
@@ -212,7 +212,7 @@ class Post implements InputFilterAwareInterface
     * @param Admin\Entity\Categorie 
     * @return Post
     */
-    public function setCategorie(Admin\Entity\Categorie $categorie = null)
+    public function setCategorie(Categorie $categorie = null)
     {
         $this->categorie = $categorie;
         return $this;
@@ -316,6 +316,7 @@ class Post implements InputFilterAwareInterface
                     ),
                 ),
             )));
+            
             $this->inputFilter = $inputFilter;
         }
         return $this->inputFilter;
