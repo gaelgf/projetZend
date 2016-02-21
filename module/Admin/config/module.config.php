@@ -68,6 +68,21 @@ return array(
                     ),
                 ),
             ),
+            //User Controller
+            'user' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/admin/user[/:action][/:id]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Admin\Controller\User',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
             
         ),
     ),
@@ -86,17 +101,12 @@ return array(
         'invokables' => array(
             'Admin\Controller\Index' => Controller\IndexController::class,
             'Admin\Controller\Post' => Controller\PostController::class,
-            'Admin\Controller\Categorie' => Controller\CategorieController::class
+            'Admin\Controller\Categorie' => Controller\CategorieController::class,
+            'Admin\Controller\User' => Controller\CategorieController::class
         ),
-        'factories' => array(
-            'Admin\Controller\Post' => 'Admin\Factory\Controller\PostControllerFactory',  
-        ),
+        
     ),
-    'form_elements' => array(
-        'factories' => array(
-            'Admin\Form\PostForm' => 'Admin\Factory\Form\PostFormFactory',  
-        ),
-    ),
+    
     'view_manager' => array(
         'display_not_found_reason' => true,
         'display_exceptions'       => true,
