@@ -26,7 +26,7 @@ class User implements UserInterface
      * @var int L'identifiant utilisateur
      * @ORM\Id
      * @ORM\Column(type="integer", name="user_id")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
     /**

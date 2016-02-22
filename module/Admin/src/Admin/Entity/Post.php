@@ -46,7 +46,7 @@ class Post implements InputFilterAwareInterface
      */
     protected $contenu;
     /**
-    * @ORM\OneToOne(targetEntity="Admin\Entity\User", cascade={"persist"})
+    * @ORM\ManyToOne(targetEntity="Admin\Entity\User",  cascade={"persist"})
     * @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
     */
     private $user;
@@ -57,12 +57,12 @@ class Post implements InputFilterAwareInterface
     private $photo;
     
     /**
-    * @ORM\OneToOne(targetEntity="Admin\Entity\Comment", cascade={"persist"})
+    * @ORM\OneToMany(targetEntity="Admin\Entity\Comment", mappedBy="post", cascade={"persist"})
     */
     private $comment;
 
     /**
-    * @ORM\OneToOne(targetEntity="Admin\Entity\Categorie", cascade={"persist"})
+    * @ORM\OneToMany(targetEntity="Admin\Entity\Categorie", mappedBy="post", cascade={"persist"})
     * @ORM\JoinColumn(name="categorie_id", referencedColumnName="id")
     */
     private $categorie;
@@ -178,7 +178,7 @@ class Post implements InputFilterAwareInterface
      * @param Admin\Entity\User
      * @return Post
      */
-    public function setUser(Admin\Entity\User $user = null)
+    public function setUser(User $user = null)
     {
         $this->user = $user;
         return $this;
@@ -189,7 +189,7 @@ class Post implements InputFilterAwareInterface
      * @param Admin\Entity\Photo
      * @return Post
      */
-    public function setPhoto(Admin\Entity\Photo $photo = null)
+    public function setPhoto(Photo $photo = null)
     {
         $this->photo = $photo;
         return $this;
@@ -200,7 +200,7 @@ class Post implements InputFilterAwareInterface
      * @param Admin\Entity\Comment
      * @return Post
      */
-    public function setComment(Admin\Entity\Comment $comment = null)
+    public function setComment(Comment $comment = null)
     {
         $this->comment = $comment;
         return $this;

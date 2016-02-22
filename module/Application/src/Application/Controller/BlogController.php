@@ -9,30 +9,19 @@
 
 namespace Application\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
+use Application\Controller\EntityUsingController;
 use Zend\View\Model\ViewModel;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Query;
+use Admin\Entity\Post;
+use Admin\Form\PostForm;
 
-class BlogController extends AbstractActionController
+class BlogController extends EntityUsingController
 {
-
-    /**
-     * @var Doctrine\ORM\EntityManager
-     */
-    protected $em;
-    public function getEntityManager()
-    {
-        if (null === $this->em) {
-            $this->em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
-        }
-        return $this->em;
-    }
 
     public function indexAction()
     {
-    	//$post = $this->getEntityManager()->getRepository('Admin\Entity\Post')->findAll();
-        return new ViewModel();
-        //return new ViewModel(array('post' => $post));
+    	$em = $this->getEntityManager();
+        $posts = $em->getRepository('Admin\Entity\Post')->findBy(array(), array('titre' => 'ASC'));
+        
+        return new ViewModel(array('posts' => $posts,));
     }
 }

@@ -31,6 +31,26 @@ class PostForm extends Form
                 'property' => 'nom'
             )
         ));
+        /*$this->add(array(
+            'name' => 'photo',
+            'type' => 'Zend\Form\Element\File',
+            'options' => array(
+                'label' => 'Image',
+                'label_attributes' => array(
+                    'class' => 'form-label'
+                ),
+            )
+        ));*/
+        $this->add(array(
+            'name' => 'user',
+            'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+            'options' => array(
+                'label' => 'Utilisateur',
+                'object_manager' => $em,
+                'target_class' => 'Admin\Entity\User',
+                'property' => 'email'
+            )
+        ));
         $this->add(array(
             'name' => 'submit',
             'attributes' => array(

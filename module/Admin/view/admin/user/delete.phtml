@@ -2,19 +2,19 @@
     <div class='row' id='primary'>
         <div class='span12' id='content' style="min-height:300px; background-color:white;padding:35px;margin-left:0" role='main'>
 			<?php
-			$title = 'Supprimer la Catégorie';
+			$title = 'Supprimer l\'utilisateur';
 			$this->headTitle($title);
-			$url = $this->url('categorie', array('action' => 'delete', 'id'=>$this->id))
+			$url = $this->url('user', array('action' => 'delete', 'id'=>$this->id))
 			?>
 			<h1><?=$this->escapeHtml($title)?></h1>
-			Etes-vous sûr de vouloir supprimer la categorie "<?=$this->escapeHtml($categorie->nom)?>" ?
+			Etes-vous sûr de vouloir supprimer la user "<?=$this->escapeHtml($user->nom)?>" ?
 			<form action="<?=$url?>" method="post">
 			    <div>
-			        <input type="hidden" name="id" value="<?=$categorie->id?>" />
+			        <input type="hidden" name="id" value="<?=$user->id?>" />
 			        <input type="submit" name="del" value="Oui" />
 			        <input type="submit" name="del" value="Non" />
 			    </div>
 			</form>
-        </div>
-    </div>
+		</div>
+	</div>
 </div>

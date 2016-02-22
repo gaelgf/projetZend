@@ -1,0 +1,27 @@
+<div class='container' id='content-wrapper'>
+    <div class='row' id='primary'>
+        <div class='span12' id='content' style="min-height:300px; background-color:white;padding:35px;margin-left:0" role='main'>
+                <?php
+                $title = 'Commentaires';
+                $this->headTitle($title);
+                ?>
+                <h1><?php echo $this->escapeHtml($title); ?></h1>
+                <table class="table table-bordered table-hover">
+                    <tr>
+                        <th>comment</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                    <?php foreach($comments as $comment) : ?>
+                        <tr>
+                            <td><?php echo $this->escapeHtml($comment->getEmail());?></td>
+                            
+                            <td>
+                                <a href="<?php echo $this->url('comment', array('action' => 'delete', 'id' => $comment->getId())); ?>" onclick="return confirm('Are you sure?')">Delete</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </table>
+
+        </div>
+    </div>
+</div>

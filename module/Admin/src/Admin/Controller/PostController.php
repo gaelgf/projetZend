@@ -55,11 +55,14 @@ class PostController extends EntityUsingController
             
             /*récupération de la catégorie*/
             $cat = $data->get('categorie');
+            $use = $data->get('user');
             $categorie = $this->getEntityManager()->getRepository('Admin\Entity\Categorie')->find($cat);
+            $user = $this->getEntityManager()->getRepository('Admin\Entity\User')->find($use);
             
             $post->setTitre($data->get('titre'));
             $post->setContenu($data->get('contenu'));
             $post->setCategorie($categorie);
+            $post->setUser($user);
             
             //if ($form->isValid()) {
                 $em = $this->getEntityManager();

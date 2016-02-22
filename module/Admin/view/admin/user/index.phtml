@@ -1,0 +1,26 @@
+<div class='container' id='content-wrapper'>
+    <div class='row' id='primary'>
+        <div class='span12' id='content' style="min-height:300px; background-color:white;padding:35px;margin-left:0" role='main'>
+            <?php
+            $title = 'Liste des Utilisateurs';
+            $this->headTitle($title);
+            ?>
+            <h1><?php echo $this->escapeHtml($title); ?></h1>
+
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th>Utilisateurs</th>
+                    <th>&nbsp;</th>
+                </tr>
+                <?php foreach($users as $user) : ?>
+                    <tr>
+                        <td><?php echo $this->escapeHtml($user->getEmail());?></td>
+                        <td>
+                            <a href="<?php echo $this->url('user', array('action' => 'delete', 'id' => $user->getId())); ?>" onclick="return confirm('Are you sure?')">Delete</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        </div>
+    </div>
+</div>

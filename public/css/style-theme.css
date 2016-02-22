@@ -829,7 +829,7 @@ max-height: 68px;
 margin-left: 10px;}
 #side-bar{width:360px;margin-left:30px}
 #content-wrapper{margin-bottom:50px;padding-top:25px;}
-.post{display:block;margin-bottom:30px;overflow:hidden;background-color: #FFFFFF;
+.post{display:block;text-align:center;margin-bottom:30px;overflow:hidden;background-color: #FFFFFF;
 -moz-border-radius: 1px 1px 1px 1px;
 -webkit-border-radius: 1px 1px 1px 1px;
 border-radius: 1px 1px 1px 1px;

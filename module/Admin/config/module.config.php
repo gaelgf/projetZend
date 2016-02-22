@@ -83,6 +83,35 @@ return array(
                     ),
                 ),
             ),
+            //Comment Controller
+            'comment' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/admin/comment[/:action][/:id]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Admin\Controller\Comment',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
+            'addComment' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/admin/comment/add/:id',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Admin\Controller\Comment',
+                        'action'     => 'add',
+                    ),
+                ),
+            ),
             
         ),
     ),
@@ -102,7 +131,8 @@ return array(
             'Admin\Controller\Index' => Controller\IndexController::class,
             'Admin\Controller\Post' => Controller\PostController::class,
             'Admin\Controller\Categorie' => Controller\CategorieController::class,
-            'Admin\Controller\User' => Controller\CategorieController::class
+            'Admin\Controller\User' => Controller\UserController::class,
+            'Admin\Controller\Comment' => Controller\CommentController::class
         ),
         
     ),

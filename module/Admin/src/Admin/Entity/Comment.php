@@ -6,6 +6,11 @@
  */
 namespace Admin\Entity;
 use Doctrine\ORM\Mapping as ORM;
+
+use Zend\InputFilter\Factory as InputFactory;
+use Zend\InputFilter\InputFilter;
+use Zend\InputFilter\InputFilterAwareInterface;
+use Zend\InputFilter\InputFilterInterface;
  
 /**
  * Représentation d'un comment
@@ -25,23 +30,25 @@ class Comment
      * @var int L'identifiant utilisateur
      * @ORM\Id
      * @ORM\Column(type="integer", name="id")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
     /**
      * @var string email
-     * @ORM\Column(type="string", length=255, unique=true, nullable=true, name="email")
+     * @ORM\Column(type="string", length=255, nullable=true, name="email")
      */
     protected $email;
     /**
      * @var string contenu
-     * @ORM\Column(type="string", unique=true,  length=255, name="contenu")
+     * @ORM\Column(type="string", length=255, nullable=true, name="contenu")
      */
     protected $contenu;
     /**
-    * @ORM\OneToOne(targetEntity="Admin\Entity\Post", cascade={"persist"})
+    * @ORM\ManyToOne(targetEntity="Admin\Entity\Post", inversedBy="comment", cascade={"persist"})
     */
     private $post;
+
+    protected $inputFilter;
 
  
     /*********************************
@@ -127,7 +134,7 @@ class Comment
      * @param Admin\Entity\Post
      * @return Comment
      */
-    public function setPost(Admin\Entity\Post $post = null)
+    public function setPost(Post $post = null)
     {
         $this->post = $post;
         return $this;
@@ -149,10 +156,88 @@ class Comment
     /*********************************
      * METHODES
     *********************************/
-     
-    /************ PUBLIC ************/
-         
-    /*********** PROTECTED **********/
-     
-    /************ PRIVATE ***********/
+     /**
+    * Exchange array - used in ZF2 form
+    *
+    * @param array $data An array of data
+    */
+    public function exchangeArray($data)
+    {
+        $this->id = (isset($data['id']))? $data['id'] : null;
+        $this->email = (isset($data['email']))? $data['email'] : null;
+        $this->contenu = (isset($data['contenu']))? $data['contenu'] : null;
+    }
+    /**
+    * Get an array copy of object
+    *
+    * @return array
+    */
+    public function getArrayCopy()
+    {
+        return get_object_vars($this);
+    }
+    /**
+    * Set input method
+    *
+    * @param InputFilterInterface $inputFilter
+    */
+    public function setInputFilter(InputFilterInterface $inputFilter)
+    {
+        throw new \Exception("Not used");
+    }
+    /**
+    * Get input filter
+    *
+    * @return InputFilterInterface
+    */
+    public function getInputFilter()
+    {
+        if (!$this->inputFilter) {
+            $inputFilter = new InputFilter();
+            $factory     = new InputFactory();
+            
+            $inputFilter->add($factory->createInput(array(
+                'name'     => 'contenu',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 255,
+                        ),
+                    ),
+                ),
+            )));
+            $inputFilter->add($factory->createInput(array(
+                'name'     => 'email',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StringTrim'),
+                ),
+                
+            )));
+            /*$inputFilter->add($factory->createInput(array(
+                'name'     => 'email',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'Zend\Filter\StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        new \Zend\Validator\EmailAddress(),
+                        ),
+                    ),
+                ),
+            ));*/
+            $this->inputFilter = $inputFilter;
+        }
+
+        return $this->inputFilter;
+    }
 }
