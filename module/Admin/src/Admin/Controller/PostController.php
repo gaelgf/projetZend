@@ -66,7 +66,8 @@ class PostController extends EntityUsingController
             
             //if ($form->isValid()) {
                 $em = $this->getEntityManager();
-                //$em->persist($post);
+                //var_dump($post);exit();
+                $em->persist($post);
                 
                 $em->flush();
                 $this->flashMessenger()->addSuccessMessage('Post enregistré');

@@ -46,7 +46,7 @@ class Post implements InputFilterAwareInterface
      */
     protected $contenu;
     /**
-    * @ORM\ManyToOne(targetEntity="Admin\Entity\User",  cascade={"persist"})
+    * @ORM\ManyToOne(targetEntity="Admin\Entity\User", cascade={"persist"})
     * @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
     */
     private $user;
@@ -62,7 +62,7 @@ class Post implements InputFilterAwareInterface
     private $comment;
 
     /**
-    * @ORM\OneToMany(targetEntity="Admin\Entity\Categorie", mappedBy="post", cascade={"persist"})
+    * @ORM\ManyToOne(targetEntity="Admin\Entity\Categorie",  cascade={"persist"})
     * @ORM\JoinColumn(name="categorie_id", referencedColumnName="id")
     */
     private $categorie;
