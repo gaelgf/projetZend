@@ -6,6 +6,11 @@
  */
 namespace Admin\Entity;
 use Doctrine\ORM\Mapping as ORM;
+
+use Zend\InputFilter\Factory as InputFactory;
+use Zend\InputFilter\InputFilter;
+use Zend\InputFilter\InputFilterAwareInterface;
+use Zend\InputFilter\InputFilterInterface;
  
 /**
  * Représentation d'une photo
@@ -15,7 +20,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @author
  */
-class Photo 
+class Photo implements InputFilterAwareInterface
 {
     /*********************************
      * ATTRIBUTS
@@ -38,6 +43,8 @@ class Photo
      * @ORM\Column(type="string", unique=true,  length=255, name="alt")
      */
     protected $alt;
+
+    protected $inputFilter;
     
  
     /*********************************
@@ -126,10 +133,86 @@ class Photo
     /*********************************
      * METHODES
     *********************************/
-     
-    /************ PUBLIC ************/
-         
-    /*********** PROTECTED **********/
-     
-    /************ PRIVATE ***********/
+      /**
+    * Exchange array - used in ZF2 form
+    *
+    * @param array $data An array of data
+    */
+    public function exchangeArray($data)
+    {
+        $this->id = (isset($data['id']))? $data['id'] : null;
+        $this->lien = (isset($data['lien']))? $data['lien'] : null;
+        $this->alt = (isset($data['alt']))? $data['alt'] : null;
+    }
+    /**
+    * Get an array copy of object
+    *
+    * @return array
+    */
+    public function getArrayCopy()
+    {
+        return get_object_vars($this);
+    }
+    /**
+    * Set input method
+    *
+    * @param InputFilterInterface $inputFilter
+    */
+    public function setInputFilter(InputFilterInterface $inputFilter)
+    {
+        throw new \Exception("Not used");
+    }
+    /**
+    * Get input filter
+    *
+    * @return InputFilterInterface
+    */
+    public function getInputFilter()
+    {
+        if (!$this->inputFilter) {
+            $inputFilter = new InputFilter();
+            $factory     = new InputFactory();
+          
+            $inputFilter->add($factory->createInput(array(
+                'name'     => 'lien',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 255,
+                        ),
+                    ),
+                ),
+            )));
+            $inputFilter->add($factory->createInput(array(
+                'name'     => 'alt',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 255,
+                        ),
+                    ),
+                ),
+            )));
+            $this->inputFilter = $inputFilter;
+        }
+
+        return $this->inputFilter;
+    }
+
 }

@@ -21,7 +21,8 @@ class BlogController extends EntityUsingController
     {
     	$em = $this->getEntityManager();
         $posts = $em->getRepository('Admin\Entity\Post')->findBy(array(), array('titre' => 'ASC'));
+        $categs = $em->getRepository('Admin\Entity\Categorie')->findBy(array(), array('nom' => 'ASC'));
         
-        return new ViewModel(array('posts' => $posts,));
+        return new ViewModel(array('posts' => $posts, 'categs' => $categs));
     }
 }

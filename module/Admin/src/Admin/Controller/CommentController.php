@@ -14,12 +14,16 @@ class CommentController extends EntityUsingController
     */
     public function indexAction()
     {
-        $em = $this->getEntityManager();
-        $comments = $em->getRepository('Admin\Entity\Comment')->findBy(array(), array('email' => 'ASC'));
-        
-        $layout = $this->layout();
-        $layout->setTemplate('layout/admin');
-        return new ViewModel(array('comments' => $comments,));
+        if ($this->zfcUserAuthentication()->hasIdentity()) {
+            $em = $this->getEntityManager();
+            $comments = $em->getRepository('Admin\Entity\Comment')->findBy(array(), array('email' => 'ASC'));
+            
+            $layout = $this->layout();
+            $layout->setTemplate('layout/admin');
+            return new ViewModel(array('comments' => $comments,));
+        }else{
+            return $this->redirect()->toRoute('home');
+        }
     }
     
     public function editAction($id)

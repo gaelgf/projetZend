@@ -64,10 +64,10 @@ class Photo extends \Admin\Entity\Photo implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', '_id', '_lien', '_alt');
+            return array('__isInitialized__', 'id', 'lien', 'alt', 'inputFilter');
         }
 
-        return array('__isInitialized__', '_id', '_lien', '_alt');
+        return array('__isInitialized__', 'id', 'lien', 'alt', 'inputFilter');
     }
 
     /**
@@ -178,6 +178,10 @@ class Photo extends \Admin\Entity\Photo implements \Doctrine\ORM\Proxy\Proxy
      */
     public function getId()
     {
+        if ($this->__isInitialized__ === false) {
+            return (int)  parent::getId();
+        }
+
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', array());
 
@@ -237,6 +241,50 @@ class Photo extends \Admin\Entity\Photo implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAlt', array($alt));
 
         return parent::setAlt($alt);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function exchangeArray($data)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'exchangeArray', array($data));
+
+        return parent::exchangeArray($data);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getArrayCopy()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getArrayCopy', array());
+
+        return parent::getArrayCopy();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setInputFilter(\Zend\InputFilter\InputFilterInterface $inputFilter)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setInputFilter', array($inputFilter));
+
+        return parent::setInputFilter($inputFilter);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getInputFilter()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getInputFilter', array());
+
+        return parent::getInputFilter();
     }
 
 }

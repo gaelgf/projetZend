@@ -9,6 +9,16 @@ class PostForm extends Form
         parent::__construct('post');
         $this->setAttribute('method', 'post');
         $this->add(array(
+            'name' => 'photo',
+            'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+            'options' => array(
+                'label' => 'Photo',
+                'object_manager' => $em,
+                'target_class' => 'Admin\Entity\Photo',
+                'property' => 'alt'
+            )
+        ));
+        $this->add(array(
             'name' => 'titre',
             'type'  => 'text',
             'options' => array('label' => 'Titre'),

@@ -1,0 +1,31 @@
+<div class='container' id='content-wrapper'>
+    <div class='row' id='primary'>
+        <div class='span12' id='content' style="min-height:300px; background-color:white;padding:35px;margin-left:0" role='main'>
+                <?php
+                $title = 'Photos';
+                $this->headTitle($title);
+                ?>
+                <h1><?php echo $this->escapeHtml($title); ?></h1>
+                <p><a href="<?php echo $this->url('photo', array('action'=>'add'));?>">Add new photo</a></p>
+                <table class="table table-bordered table-hover">
+                    <tr>
+                        <th>photo</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                    <?php foreach($photos as $photo) : ?>
+                        <tr>
+                            <td><?php echo $this->escapeHtml($photo->getLien());?></td>
+                            <td>
+                                <a href="<?php echo $this->url('photo', array('action' => 'edit', 'id' => $photo->getId())); ?>">Edit</a>
+                            </td>
+                            <td>
+                                <a href="<?php echo $this->url('photo', array('action' => 'delete', 'id' => $photo->getId())); ?>" onclick="return confirm('Are you sure?')">Delete</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </table>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+<div class='container' id='content-wrapper'>
+    <div class='row' id='primary'>
+        <div class='span12' id='content' style="min-height:300px; background-color:white;padding:35px;margin-left:0" role='main'>
+			<?php
+			$title = 'Edit Photo';
+			$this->headTitle($title);
+			?>
+			<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+			<?php
+				$form->setAttribute('action', $this->url('photo', array('action' => 'edit', 'id' => $photo->getId())));
+				$form->setAttribute('class', 'form-horizontal');
+				
+				echo $this->ztbForm($form);
+			?>
+        </div>
+    </div>
+</div>

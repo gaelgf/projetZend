@@ -24,12 +24,16 @@ class PostController extends EntityUsingController
     */
     public function indexAction()
     {
-        $em = $this->getEntityManager();
-        $posts = $em->getRepository('Admin\Entity\Post')->findBy(array(), array('titre' => 'ASC'));
-        
-        $layout = $this->layout();
-        $layout->setTemplate('layout/admin');
-        return new ViewModel(array('posts' => $posts,));
+        if ($this->zfcUserAuthentication()->hasIdentity()) {
+            $em = $this->getEntityManager();
+            $posts = $em->getRepository('Admin\Entity\Post')->findBy(array(), array('titre' => 'ASC'));
+            
+            $layout = $this->layout();
+            $layout->setTemplate('layout/admin');
+            return new ViewModel(array('posts' => $posts,));
+        }else{
+            return $this->redirect()->toRoute('home');   
+        }
     }
     /**
     * Edit action
@@ -37,49 +41,56 @@ class PostController extends EntityUsingController
     */
     public function editAction()
     {
-        $post = new Post;
+        if ($this->zfcUserAuthentication()->hasIdentity()) {
+            $post = new Post;
 
-        if ($this->params('id') > 0) {
-            $post = $this->getEntityManager()->getRepository('Admin\Entity\Post')->find($this->params('id'));
-        }
-        $form = new PostForm($this->getEntityManager());
-        $form->setHydrator(new DoctrineEntity($this->getEntityManager(),'Admin\Entity\Post'));
-        $form->bind($post);
-        
-        $request = $this->getRequest();
+            if ($this->params('id') > 0) {
+                $post = $this->getEntityManager()->getRepository('Admin\Entity\Post')->find($this->params('id'));
+            }
+            $form = new PostForm($this->getEntityManager());
+            $form->setHydrator(new DoctrineEntity($this->getEntityManager(),'Admin\Entity\Post'));
+            $form->bind($post);
+            
+            $request = $this->getRequest();
 
-        if ($request->isPost()) {
-            $data = $request->getPost();
-            $form->setInputFilter($post->getInputFilter());
-            $form->setData($data);
-            
-            /*récupération de la catégorie*/
-            $cat = $data->get('categorie');
-            $use = $data->get('user');
-            $categorie = $this->getEntityManager()->getRepository('Admin\Entity\Categorie')->find($cat);
-            $user = $this->getEntityManager()->getRepository('Admin\Entity\User')->find($use);
-            
-            $post->setTitre($data->get('titre'));
-            $post->setContenu($data->get('contenu'));
-            $post->setCategorie($categorie);
-            $post->setUser($user);
-            
-            //if ($form->isValid()) {
-                $em = $this->getEntityManager();
-                //var_dump($post);exit();
-                $em->persist($post);
+            if ($request->isPost()) {
+                $data = $request->getPost();
+                $form->setInputFilter($post->getInputFilter());
+                $form->setData($data);
                 
-                $em->flush();
-                $this->flashMessenger()->addSuccessMessage('Post enregistré');
-                return $this->redirect()->toRoute('post');
-            //}
+                /*récupération de la catégorie*/
+                $cat = $data->get('categorie');
+                $use = $data->get('user');
+                $img = $data->get('photo');
+                $categorie = $this->getEntityManager()->getRepository('Admin\Entity\Categorie')->find($cat);
+                $user = $this->getEntityManager()->getRepository('Admin\Entity\User')->find($use);
+                $photo = $this->getEntityManager()->getRepository('Admin\Entity\Photo')->find($img);
+                
+                $post->setTitre($data->get('titre'));
+                $post->setContenu($data->get('contenu'));
+                $post->setCategorie($categorie);
+                $post->setUser($user);
+                $post->setPhoto($photo);
+                
+                //if ($form->isValid()) {
+                    $em = $this->getEntityManager();
+                    //var_dump($post);exit();
+                    $em->persist($post);
+                    
+                    $em->flush();
+                    $this->flashMessenger()->addSuccessMessage('Post enregistré');
+                    return $this->redirect()->toRoute('post');
+                //}
+            }
+            $layout = $this->layout();
+            $layout->setTemplate('layout/admin');
+            return new ViewModel(array(
+                'post' => $post,
+                'form' => $form
+            ));
+        }else{
+            return $this->redirect()->toRoute('home');
         }
-        $layout = $this->layout();
-        $layout->setTemplate('layout/admin');
-        return new ViewModel(array(
-            'post' => $post,
-            'form' => $form
-        ));
     }
     /**
     * Add action

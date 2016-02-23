@@ -3,10 +3,10 @@ namespace Admin\Controller;
 
 use Application\Controller\EntityUsingController;
 use Zend\View\Model\ViewModel;
-use Admin\Form\CategorieForm;
-use Admin\Entity\Categorie;
+use Admin\Form\PhotoForm;
+use Admin\Entity\Photo;
 
-class CategorieController extends EntityUsingController
+class PhotoController extends EntityUsingController
 {
     /**
     *
@@ -16,42 +16,42 @@ class CategorieController extends EntityUsingController
     {
         if ($this->zfcUserAuthentication()->hasIdentity()) {
             $em = $this->getEntityManager();
-            $categories = $em->getRepository('Admin\Entity\Categorie')->findBy(array(), array('nom' => 'ASC'));
+            $photos = $em->getRepository('Admin\Entity\Photo')->findBy(array(), array('alt' => 'ASC'));
             
             $layout = $this->layout();
             $layout->setTemplate('layout/admin');
-            return new ViewModel(array('categories' => $categories,));
+            return new ViewModel(array('photos' => $photos,));
         }else{
             return $this->redirect()->toRoute('home');
         }
     }
     public function editAction()
     {
-        $categorie = new Categorie;
+        $photo = new Photo;
         if ($this->params('id') > 0) {
-            $categorie = $this->getEntityManager()->getRepository('Admin\Entity\Categorie')->find($this->params('id'));
+            $photo = $this->getEntityManager()->getRepository('Admin\Entity\Photo')->find($this->params('id'));
         }
-        $form = new CategorieForm();
-        $form->bind($categorie);
+        $form = new PhotoForm();
+        $form->bind($photo);
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $form->setInputFilter($categorie->getInputFilter());
+            $form->setInputFilter($photo->getInputFilter());
             $form->setData($request->getPost());
 
             if ($form->isValid()) {
 
                 $em = $this->getEntityManager();
-                $em->persist($categorie);
+                $em->persist($photo);
                 $em->flush();
 
-                $this->flashMessenger()->addSuccessMessage('Categorie Enregistré');
-                return $this->redirect()->toRoute('categorie');
+                $this->flashMessenger()->addSuccessMessage('photo Enregistré');
+                return $this->redirect()->toRoute('photo');
             }
         }
         $layout = $this->layout();
         $layout->setTemplate('layout/admin');
         return new ViewModel(array(
-            'categorie' => $categorie,
+            'photo' => $photo,
             'form' => $form
         ));
     }
@@ -63,13 +63,13 @@ class CategorieController extends EntityUsingController
     }
     public function deleteAction()
     {
-        $categorie = $this->getEntityManager()->getRepository('Admin\Entity\Categorie')->find($this->params('id'));
-        if ($categorie) {
+        $photo = $this->getEntityManager()->getRepository('Admin\Entity\Photo')->find($this->params('id'));
+        if ($photo) {
             $em = $this->getEntityManager();
-            $em->remove($categorie);
+            $em->remove($photo);
             $em->flush();
-            $this->flashMessenger()->addSuccessMessage('Categorie supprimé');
+            $this->flashMessenger()->addSuccessMessage('Photo supprimé');
         }
-        return $this->redirect()->toRoute('categorie');
+        return $this->redirect()->toRoute('photo');
     }
 }

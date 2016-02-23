@@ -68,6 +68,21 @@ return array(
                     ),
                 ),
             ),
+            //Catégorie Controller
+            'photo' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/admin/photo[/:action][/:id]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Admin\Controller\Photo',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
             //User Controller
             'user' => array(
                 'type'    => 'segment',
@@ -131,6 +146,7 @@ return array(
             'Admin\Controller\Index' => Controller\IndexController::class,
             'Admin\Controller\Post' => Controller\PostController::class,
             'Admin\Controller\Categorie' => Controller\CategorieController::class,
+            'Admin\Controller\Photo' => Controller\PhotoController::class,
             'Admin\Controller\User' => Controller\UserController::class,
             'Admin\Controller\Comment' => Controller\CommentController::class
         ),

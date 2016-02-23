@@ -16,7 +16,7 @@ return array(
         'ZfcUser',
         'ZfcUserDoctrineORM',
         'ZfcTwitterBootstrap',
-        'ZendDeveloperTools'
+        'ZendDeveloperTools',
         
     ),
 

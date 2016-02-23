@@ -14,11 +14,16 @@ class UserController extends EntityUsingController
     */
     public function indexAction()
     {
-        $em = $this->getEntityManager();
-        $users = $em->getRepository('Admin\Entity\User')->findBy(array(), array('username' => 'ASC'));
-        
-        $layout = $this->layout();
-        $layout->setTemplate('layout/admin');
+        if ($this->zfcUserAuthentication()->hasIdentity()) {
+            $em = $this->getEntityManager();
+            $users = $em->getRepository('Admin\Entity\User')->findBy(array(), array('username' => 'ASC'));
+            
+            $layout = $this->layout();
+            $layout->setTemplate('layout/admin');
+        }
+        else{
+            return $this->redirect()->toRoute('home');
+        }
         return new ViewModel(array('users' => $users,));
     }
     
